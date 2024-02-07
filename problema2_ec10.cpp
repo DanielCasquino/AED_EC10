@@ -74,25 +74,66 @@ BTreeNode::BTreeNode(int t1, bool leaf1)
 // Function to traverse all nodes in a subtree rooted with this node
 void BTreeNode::traverse()
 {
-	// -----------------
-    // PUT YOUR CODE !!!
-    // -----------------
+	int i;
+    for (i = 0; i < n; i++) {
+        if (leaf == false)
+            C[i]->traverse();
+        cout << " " << keys[i];
+    }
+ 
+    if (leaf == false)
+        C[i]->traverse();
 }
 
 // Function to search key k in subtree rooted with this node
 BTreeNode *BTreeNode::search(int k)
 {
-	// -----------------
-    // PUT YOUR CODE !!!
-    // -----------------
+	int i = 0;
+    while (i < n && k > keys[i])
+        i++;
+ 
+    if (keys[i] == k)
+        return this;
+ 
+    
+    if (leaf == true)
+        return NULL;
+ 
+    
+    return C[i]->search(k);
 }
 
 // The main function that inserts a new key in this B-Tree
 void BTree::insert(int k)
 {
-	// -----------------
-    // PUT YOUR CODE !!!
-    // -----------------
+	if (root == NULL)
+	{
+		root = new BTreeNode(t, true);
+		root->keys[0] = k; // Asignamos un valor a la llave
+		root->n = 1; 
+	}
+	else 
+	{
+		if (root->n == 2*t-1)
+		{
+			
+			BTreeNode *s = new BTreeNode(t, false);
+
+			s->C[0] = root;
+
+			s->splitChild(0, root);
+
+			// 2 childs para el nuevo root
+			int i = 0;
+			if (s->keys[0] < k)
+				i++;
+			s->C[i]->insertNonFull(k);
+
+			root = s;
+		}
+		else 
+			root->insertNonFull(k);
+	}
 }
 
 // A utility function to insert a new key in this node

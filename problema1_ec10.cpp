@@ -83,7 +83,6 @@ void BTreeNode::traverse()
         cout << " " << keys[i];
     }
  
-    // Print the subtree rooted with last child
     if (leaf == false)
         C[i]->traverse();
 }
