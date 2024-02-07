@@ -75,15 +75,33 @@ BTreeNode::BTreeNode(int _t, bool _leaf)
 // this node
 void BTreeNode::traverse()
 {
-	// -----------------
-    // PUT YOUR CODE !!!
-    // -----------------
+    // Son n keys y existe n+1 children
+    int i;
+    for (i = 0; i < n; i++) {
+        if (leaf == false)
+            C[i]->traverse();
+        cout << " " << keys[i];
+    }
+ 
+    // Print the subtree rooted with last child
+    if (leaf == false)
+        C[i]->traverse();
 }
  
 // Function to search key k in subtree rooted with this node
 BTreeNode* BTreeNode::search(int k)
 {
-    // -----------------
-    // PUT YOUR CODE !!!
-    // -----------------
+    int i = 0;
+    while (i < n && k > keys[i])
+        i++;
+ 
+    if (keys[i] == k)
+        return this;
+ 
+    
+    if (leaf == true)
+        return NULL;
+ 
+    
+    return C[i]->search(k);
 }
